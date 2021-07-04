@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace BRules.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class AreasController : ControllerBase
     {
@@ -27,7 +28,7 @@ namespace BRules.Controllers
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        [Authorize]
+       
         [HttpGet]
         public async Task<IActionResult> GetAreas()
         {

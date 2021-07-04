@@ -29,7 +29,6 @@ namespace BRules.Domain.RuleAggregate
                 return Result.Fail("Area is required");
             }
 
-            //TODO: history
             var (code, newArea) = Area.GetNextCode(area);
             
             rule = rule with { Code = code };

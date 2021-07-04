@@ -13,7 +13,6 @@ namespace BRules.Domain.RuleAggregate
         public string AreaId { get; init; } = "";
         public Status Status { get; init; }
 
-        public List<string> HistoryIds { get; set; } = new List<string>();
         public List<string> Tags { get; set; } = new List<string>();
     }
 

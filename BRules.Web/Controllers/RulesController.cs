@@ -2,6 +2,7 @@
 using BRules.Domain.SharedKernel;
 using BRules.Models;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 namespace BRules.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class RulesController : ControllerBase
     {
@@ -30,6 +32,22 @@ namespace BRules.Controllers
             var rules = await this.repository.Get();
             var model = this.mapper.Map<List<RuleModel>>(rules);
             return Ok(model);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetRules(string id)
+        {
+            var rules = await this.repository.Get(x => x.Id == id);
+            var rule = rules.FirstOrDefault();
+            if(rule == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var model = this.mapper.Map<RuleModel>(rule);
+                return Ok(model);
+            }
         }
 
         [HttpPost]
@@ -105,6 +123,13 @@ namespace BRules.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet("{id}/History")]
+        public async Task<IActionResult> GetHistory(string id, [FromServices] IRepository<RuleHistory> repositoryHistory)
+        {
+            var history = await repositoryHistory.Get(x => x.Rule.Id == id);
+            return Ok(history);
         }
 
     }
