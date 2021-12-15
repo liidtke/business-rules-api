@@ -25,6 +25,11 @@ namespace BRules.Infrastructure
             await DbSet.InsertOneAsync(obj);
         }
 
+        public IQueryable<TEntity> Query()
+        {
+            return DbSet.AsQueryable();
+        }
+
         public virtual Task<List<TEntity>> Get()
         {
             return DbSet.Find(e => true).ToListAsync();

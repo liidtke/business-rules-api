@@ -39,13 +39,13 @@ namespace BRules.Web
             });
 
 
-            var domain = $"https://{Configuration["Auth0:Domain"]}/";
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = domain;
-                    options.Audience = Configuration["Auth0:Audience"];
-                });
+            //var domain = $"https://{Configuration["Auth0:Domain"]}/";
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options =>
+            //    {
+            //        options.Authority = domain;
+            //        options.Audience = Configuration["Auth0:Audience"];
+            //    });
 
 
             DependencyInjection.ConfigureService(services, Configuration);
@@ -65,8 +65,8 @@ namespace BRules.Web
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
             app.UseCors(c => c.AllowAnyHeader()
                 .AllowAnyMethod()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace BRules.Domain.SharedKernel
 {
     public interface IRepository<TEntity> where TEntity : DomainEntity
     {
+        IQueryable<TEntity> Query();
         Task<List<TEntity>> Get();
         Task<List<TEntity>> Get(IList<string> ids);
         Task<List<TEntity>> Get(Expression<Func<TEntity, bool>> filter);

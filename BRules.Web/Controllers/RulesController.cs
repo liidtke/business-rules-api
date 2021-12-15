@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace BRules.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class RulesController : ControllerBase
     {
@@ -27,15 +27,25 @@ namespace BRules.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetRules()
+        public IActionResult GetRules([FromQuery] string areaId, [FromQuery] int count = 100)
         {
-            var rules = await this.repository.Get();
+            var query = this.repository.Query();
+            if (!string.IsNullOrEmpty(areaId))
+            {
+                query = query.Where(x => x.AreaId == areaId);
+            }
+            else
+            {
+                query = query.Take(count);
+            }
+
+            var rules = query.ToList();
             var model = this.mapper.Map<List<RuleModel>>(rules);
             return Ok(model);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetRules(string id)
+        public async Task<IActionResult> GetOne(string id)
         {
             var rules = await this.repository.Get(x => x.Id == id);
             var rule = rules.FirstOrDefault();
